@@ -46,7 +46,7 @@ def parse_text_input(text):
         if name: clean_names.append(name)
     return clean_names
 
-# --- 3. 核心算法 (大幅升级) ---
+# --- 3. 核心算法 ---
 
 def assign_positions_flexible(team_players, db):
     assignments = {} 
@@ -90,7 +90,7 @@ def assign_positions_flexible(team_players, db):
         else:
             remaining_candidates.append(p)
             
-    # --- Round 4: 强制调剂 (填补剩余空位) ---
+    # --- Round 4: 强制调剂 ---
     candidates = remaining_candidates[:]
     remaining_candidates = []
     
@@ -154,8 +154,7 @@ def calculate_balanced_teams_smart(attendees, db):
                 if random.random() < 0.5: temp_white.append(p)
                 else: temp_orange.append(p)
         
-        # 强制人数修正 (处理偏好导致的人数严重失衡)
-        # 比如白队偏好10人，橙队0人。上面循环后白队10，橙队0。需要移人。
+        # 强制人数修正 
         all_temp = temp_white + temp_orange
 
         while len(temp_white) > len(temp_orange) + 1:
@@ -241,7 +240,7 @@ with tab1:
 
     st.divider()
     if st.button("🚀 生成平衡对阵", type="primary", use_container_width=True):
-        if len(attendees) < 2:
+        if len(attendees) < 10:
             st.error("人数过少")
         else:
             res = calculate_balanced_teams_smart(attendees, db)
@@ -301,7 +300,7 @@ with tab1:
             st.toast("✅ 历史记录已更新！")
             del st.session_state['match_result']
 
-# === TAB 2: 球员管理 (保持精简) ===
+# === TAB 2: 球员管理  ===
 with tab2:
     st.header("球员名册管理")
     mode = st.radio("模式", ["添加", "编辑"], horizontal=True)
